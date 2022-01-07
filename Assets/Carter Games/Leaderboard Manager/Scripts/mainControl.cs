@@ -22,21 +22,19 @@ public class mainControl : MonoBehaviour
        
        
     }
-    public void dasdasd()
-    {
-
-    }
+  
    public void calculateThePrice()
     {
         product = new Product();
         product.pName = productName.text;
-        product.supplyingPrice = Decimal.Parse(productSupplyingPrice.text);
-        //product.trendyolComissionRate = Decimal.Parse(productTYComissionRate.text);
-        product.trendyolComissionRate = 10;
-        product.KDV = Decimal.Parse(productKdvRate.text);
-        product.cargoExpense = Decimal.Parse(productCargoExpence.text);
-        product.profitRate = Decimal.Parse(productProfitRate.text);
+        product.supplyingPrice = Decimal.Parse(String.Format("{0:0.##}",productSupplyingPrice.text));
+        product.trendyolComissionRate = Decimal.Parse(String.Format("{0:0.##}", productTYComissionRate.text));
+        product.KDV = Decimal.Parse(String.Format("{0:0.##}", productKdvRate.text));
+        product.cargoExpense = Decimal.Parse(String.Format("{0:0.##}", productCargoExpence.text));
+        product.profitRate = Decimal.Parse(String.Format("{0:0.##}", productProfitRate.text));
+
         product.calculateSellingPrice();
+
         showSellingPrice(product);
 
        
@@ -50,6 +48,8 @@ public class mainControl : MonoBehaviour
         txtSellingPriceLabel.text = "Satış Fiyatı:";
 
         txtSellingPriceAmount = sellingPriceSet.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
-        txtSellingPriceAmount.text = product.sellingingPrice.ToString();
+
+        txtSellingPriceAmount.text = "";
+        txtSellingPriceAmount.text = String.Format("{0:0.##}", product.sellingingPrice.ToString());
     }
 }
