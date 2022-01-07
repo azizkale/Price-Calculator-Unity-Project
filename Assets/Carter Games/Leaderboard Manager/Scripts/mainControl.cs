@@ -15,6 +15,11 @@ public class mainControl : MonoBehaviour
     GameObject sellingPriceSet;
     Text txtSellingPriceLabel;
     Text txtSellingPriceAmount;
+    Text tyComissionAmount;
+    Text KDVAmount;
+    Text cargoExpenceAmount;
+    Text profitAmount;
+
     Product product;
 
     void Start()
@@ -48,14 +53,35 @@ public class mainControl : MonoBehaviour
 
     void showSellingPrice(Product product)
     {
+        //this shit is needed to convert the data to decimal with "." (dot)
+        System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+        customCulture.NumberFormat.NumberDecimalSeparator = ".";
+        System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
+
         sellingPriceSet = GameObject.FindGameObjectWithTag("sellingPriceSet");
 
         txtSellingPriceLabel = sellingPriceSet.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
         txtSellingPriceLabel.text = "Satış Fiyatı:";
 
         txtSellingPriceAmount = sellingPriceSet.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
+        //txtSellingPriceAmount.text = "";
+        txtSellingPriceAmount.text = String.Format("{0:0.00}", product.sellingingPrice, customCulture) + " TL";
+        
+        //Trendyol Comission Amount Text
+        tyComissionAmount = GameObject.FindGameObjectWithTag("comissionAmount").GetComponent<Text>();
+        tyComissionAmount.text = String.Format("{0:0.00}", product.calculateTrendyolComisssionExpenseAmount(), customCulture) + " TL";
 
-        txtSellingPriceAmount.text = "";
-        txtSellingPriceAmount.text = String.Format("{0:0.00}", product.sellingingPrice) + " TL";
+        //KDV Amount Text
+        KDVAmount = GameObject.FindGameObjectWithTag("KDV_Amount").GetComponent<Text>();
+        KDVAmount.text = String.Format("{0:0.00}", product.calculateKDVExpenseAmount(), customCulture) + " TL";
+
+        //Cargo Expence Amount Text
+        cargoExpenceAmount = GameObject.FindGameObjectWithTag("CargoExpenceAmount").GetComponent<Text>();
+        cargoExpenceAmount.text = String.Format("{0:0.00}", product.cargoExpense, customCulture) + " TL";
+
+        //Profit Amount Text
+        profitAmount = GameObject.FindGameObjectWithTag("ProfitAmount").GetComponent<Text>();
+        profitAmount.text = String.Format("{0:0.00}", product.calculateprofitAmount(), customCulture) + " TL";
     }
 }

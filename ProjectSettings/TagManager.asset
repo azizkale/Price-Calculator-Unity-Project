@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - sellingPriceSet
+  - comissionAmount
+  - KDV_Amount
+  - CargoExpenceAmount
+  - ProfitAmount
   layers:
   - Default
   - TransparentFX
