@@ -5,7 +5,7 @@ public class Product : MonoBehaviour
 {
     public string ID { get; set; }
     public string pName { get; set; }
-    public decimal supplyingPrice { get; set; }
+    public decimal supplyingPrice { get; set; }   
     public decimal trendyolComissionRate { get; set; }
     public decimal KDV { get; set; }
     public decimal cargoExpense { get; set; }
