@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace CarterGames.Assets.LeaderboardManager
 {
-    [HelpURL("https://carter.games/leaderboardmanager/leaderboarddisplay")]
+    [HelpURL("")]
     [AddComponentMenu("Carter Games/Leaderboard Manager/Leaderboard Display")]
     public class LeaderboardDisplay : MonoBehaviour
     {
