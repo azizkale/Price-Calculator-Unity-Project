@@ -9,7 +9,6 @@ public class mainControl : MonoBehaviour
 
     public InputField productName;
     public InputField productSupplyingPrice;
-    public InputField productSupplyPrice;
     public InputField productKdvRate;
     public InputField productCargoExpence;
     public InputField productTYComissionRate;
@@ -17,7 +16,7 @@ public class mainControl : MonoBehaviour
     Product product = new Product();
     void Start()
     {
-        
+        productName.text = "";
     }
 
     // Update is called once per frame
