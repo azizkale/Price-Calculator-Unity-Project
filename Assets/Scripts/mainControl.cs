@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class mainControl : MonoBehaviour
 {
@@ -24,8 +25,7 @@ public class mainControl : MonoBehaviour
 
     void Start()
     {
-       
-       
+
     }
   
    public void calculateThePrice()
@@ -84,4 +84,8 @@ public class mainControl : MonoBehaviour
         profitAmount = GameObject.FindGameObjectWithTag("ProfitAmount").GetComponent<Text>();
         profitAmount.text = String.Format("{0:0.00}", product.calculateprofitAmount(), customCulture) + " TL";
     }
+
+   
+    
 }
+
