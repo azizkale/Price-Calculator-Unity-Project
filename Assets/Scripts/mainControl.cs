@@ -38,7 +38,7 @@ public class mainControl : MonoBehaviour
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-        product.supplyingPrice = Decimal.Parse(String.Format("{0:0.##}",productSupplyingPrice.text,customCulture));
+        product.supplyingPrice = Decimal.Parse(String.Format("{0:0.##}",productSupplyingPrice.text, customCulture));
         product.trendyolComissionRate = Decimal.Parse(String.Format("{0:0.00}", productTYComissionRate.text, customCulture));
         product.KDV = Decimal.Parse(String.Format("{0:0.00}",productKdvRate.text, customCulture));
         product.cargoExpense = Decimal.Parse(String.Format("{0:0.00}", productCargoExpence.text, customCulture));
