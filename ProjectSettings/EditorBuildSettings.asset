@@ -8,7 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/New Scene.unity
     guid: ebd2184d877a59448a40c982ac9c91e8
-  - enabled: 1
-    path: Assets/Carter Games/Leaderboard Manager/Demo/Scenes/TheScene.unity
-    guid: d797af8310bf03b4cadf46e2b9eac96f
   m_configObjects: {}
