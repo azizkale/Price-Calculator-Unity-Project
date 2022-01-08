@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class mainControl : MonoBehaviour
 {
@@ -22,10 +21,10 @@ public class mainControl : MonoBehaviour
     Text profitAmount;
 
     Product product;
-
+    ProductValidator validate;
     void Start()
     {
-
+        validate = new ProductValidator();
     }
   
    public void calculateThePrice()
@@ -33,6 +32,8 @@ public class mainControl : MonoBehaviour
         product = new Product();
         product.pName = productName.text;
 
+
+       
         //this shit is needed to convert the data to decimal with "." (dot)
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -44,7 +45,11 @@ public class mainControl : MonoBehaviour
         product.cargoExpense = Decimal.Parse(String.Format("{0:0.00}", productCargoExpence.text, customCulture));
         product.profitRate = Decimal.Parse(String.Format("{0:0.00}", productProfitRate.text, customCulture));
 
-        product.calculateSellingPrice();
+        if (validate.Validate(product))
+        {
+            product.calculateSellingPrice();
+        }
+       
 
         showSellingPrice(product);
 
@@ -53,6 +58,7 @@ public class mainControl : MonoBehaviour
 
    void showSellingPrice(Product product)
     {
+       
         //this shit is needed to convert the data to decimal with "." (dot)
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
