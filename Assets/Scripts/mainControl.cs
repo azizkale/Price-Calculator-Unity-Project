@@ -51,7 +51,7 @@ public class mainControl : MonoBehaviour
        
     }
 
-    void showSellingPrice(Product product)
+   void showSellingPrice(Product product)
     {
         //this shit is needed to convert the data to decimal with "." (dot)
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
@@ -85,7 +85,27 @@ public class mainControl : MonoBehaviour
         profitAmount.text = String.Format("{0:0.00}", product.calculateprofitAmount(), customCulture) + " TL";
     }
 
-   
+
+    public void clearTheForm()
+    {
+        productName.text = "";
+        productSupplyingPrice.text = "";
+        productKdvRate.text = "";
+        productCargoExpence.text = "";
+        productTYComissionRate.text = "";
+        productProfitRate.text = "";
+
+        txtSellingPriceAmount.text = "";
+        tyComissionAmount.text = "";
+        KDVAmount.text = "";
+        cargoExpenceAmount.text = "";
+        profitAmount.text = "";
+    }
+
+   public void closeApp()
+    {
+        Application.Quit();
+    }
     
 }
 
