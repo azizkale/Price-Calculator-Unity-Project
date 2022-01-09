@@ -128,7 +128,8 @@ public class mainControl : MonoBehaviour
 
     private async void webSocketConnection()
     {
-        websocket = new WebSocket("ws://localhost:5000");
+        //websocket = new WebSocket("ws://localhost:5000");
+        websocket = new WebSocket("ws://no100.herokuapp.com");
 
         websocket.OnOpen += () =>
         {
@@ -167,7 +168,7 @@ public class mainControl : MonoBehaviour
 
     public async void SendWebSocketMessage()
     {        
-
+        //serializes the data to json format and sends to websocket server
         string json = JsonUtility.ToJson(product);
 
         if (websocket.State == WebSocketState.Open)
