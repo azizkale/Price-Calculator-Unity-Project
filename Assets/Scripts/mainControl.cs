@@ -20,11 +20,13 @@ public class mainControl : MonoBehaviour
     Text cargoExpenceAmount;
     Text profitAmount;
 
+
     Product product;
     ProductValidator validate;
     void Start()
     {
         validate = new ProductValidator();
+        this.defafultValuesOfInputFields();        
     }
   
    public void calculateThePrice()
@@ -48,10 +50,13 @@ public class mainControl : MonoBehaviour
         if (validate.Validate(product))
         {
             product.calculateSellingPrice();
-        }
-       
+        }       
 
         showSellingPrice(product);
+
+
+        SocketIO soc = new SocketIO();
+        soc.SendWebSocketMessage("dddddd");
 
        
     }
@@ -92,7 +97,7 @@ public class mainControl : MonoBehaviour
     }
 
 
-    public void clearTheForm()
+   public void clearTheForm()
     {
         productName.text = "";
         productSupplyingPrice.text = "";
@@ -112,6 +117,14 @@ public class mainControl : MonoBehaviour
     {
         Application.Quit();
     }
-    
+   
+    private void defafultValuesOfInputFields()
+    {
+        productSupplyingPrice.text = "0";
+        productKdvRate.text = "0";
+        productCargoExpence.text = "0";
+        productTYComissionRate.text = "0";
+        productProfitRate.text = "0";
+    }
 }
 
