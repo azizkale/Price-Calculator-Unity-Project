@@ -1,32 +1,33 @@
 ﻿using System;
 using UnityEngine;
 
+[Serializable]
 public class Product : MonoBehaviour
 {
-    public string ID { get; set; }
-    public string pName { get; set; }
-    public decimal supplyingPrice { get; set; }   
-    public decimal trendyolComissionRate { get; set; }
-    public decimal KDV { get; set; }
-    public decimal cargoExpense { get; set; }
-    public decimal profitRate { get; set; }
-    public decimal sellingingPrice { get; set; }
+    public string ID;
+    public string pName;
+    public float supplyingPrice;
+    public float trendyolComissionRate;
+    public float KDV;
+    public float cargoExpense;
+    public float profitRate;
+    public float sellingingPrice;
 
     //Expense Amounts
-    public decimal totalExpenseAmount { get; set; }
-    public decimal trendyolComissionExpenseAmount { get; set; }
-    public decimal kdvExpenseAmount { get; set; }
+    public float totalExpenseAmount;
+    public float trendyolComissionExpenseAmount;
+    public float kdvExpenseAmount;
 
     //Profit Amount
-    public decimal profitAmount { get; set; }
+    public float profitAmount;
 
     //Methods
-    public decimal calculateSellingPrice()
+    public float calculateSellingPrice()
     {
         this.totalExpenseAmount =
             this.supplyingPrice +
-              (this.supplyingPrice * this.trendyolComissionRate / 100) +
-              (this.supplyingPrice * (this.KDV / 100)) +
+              (this.supplyingPrice * this.trendyolComissionRate / 100) + 
+            (this.supplyingPrice * (this.KDV / 100)) +
             this.cargoExpense;
 
         this.profitAmount = this.totalExpenseAmount * this.profitRate / 100;
@@ -34,7 +35,7 @@ public class Product : MonoBehaviour
         this.sellingingPrice = this.profitAmount + this.totalExpenseAmount;
 
         //makes it with 2 digit after komma
-        return Decimal.Parse(String.Format("{0:0.##}", this.sellingingPrice));
+        return this.sellingingPrice;
     }
 
     public decimal calculateTrendyolComisssionExpenseAmount()

@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using NativeWebSocket;
 
 public class mainControl : MonoBehaviour
 {
@@ -23,10 +24,13 @@ public class mainControl : MonoBehaviour
 
     Product product;
     ProductValidator validate;
-    void Start()
+
+    WebSocket websocket;
+    async void Start()
     {
         validate = new ProductValidator();
-        this.defafultValuesOfInputFields();        
+        this.defafultValuesOfInputFields();
+        webSocketConnection();
     }
   
    public void calculateThePrice()
@@ -41,11 +45,11 @@ public class mainControl : MonoBehaviour
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-        product.supplyingPrice = Decimal.Parse(String.Format("{0:0.##}",productSupplyingPrice.text, customCulture));
-        product.trendyolComissionRate = Decimal.Parse(String.Format("{0:0.00}", productTYComissionRate.text, customCulture));
-        product.KDV = Decimal.Parse(String.Format("{0:0.00}",productKdvRate.text, customCulture));
-        product.cargoExpense = Decimal.Parse(String.Format("{0:0.00}", productCargoExpence.text, customCulture));
-        product.profitRate = Decimal.Parse(String.Format("{0:0.00}", productProfitRate.text, customCulture));
+        product.supplyingPrice = float.Parse(String.Format("{0:0.##}",productSupplyingPrice.text, customCulture));
+        product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", productTYComissionRate.text, customCulture));
+        product.KDV = float.Parse(String.Format("{0:0.00}",productKdvRate.text, customCulture));
+        product.cargoExpense = float.Parse(String.Format("{0:0.00}", productCargoExpence.text, customCulture));
+        product.profitRate = float.Parse(String.Format("{0:0.00}", productProfitRate.text, customCulture));
 
         if (validate.Validate(product))
         {
@@ -53,11 +57,6 @@ public class mainControl : MonoBehaviour
         }       
 
         showSellingPrice(product);
-
-
-        SocketIO soc = new SocketIO();
-        soc.SendWebSocketMessage("dddddd");
-
        
     }
 
@@ -126,5 +125,62 @@ public class mainControl : MonoBehaviour
         productTYComissionRate.text = "0";
         productProfitRate.text = "0";
     }
+
+    private async void webSocketConnection()
+    {
+        websocket = new WebSocket("ws://localhost:5000");
+
+        websocket.OnOpen += () =>
+        {
+            //Debug.Log("Connection open!");
+        };
+
+        websocket.OnError += (e) =>
+        {
+            Debug.Log("Error! " + e);
+        };
+
+        websocket.OnClose += (e) =>
+        {
+            //Debug.Log("Connection closed!");
+        };
+
+        websocket.OnMessage += (bytes) =>
+        {
+            // Reading a plain text message
+            var message = System.Text.Encoding.UTF8.GetString(bytes);
+            Debug.Log("Received OnMessage! (" + bytes.Length + " bytes) " + message);
+        };
+
+        // Keep sending messages at every 0.3s
+        //InvokeRepeating("SendWebSocketMessage", 0.0f, 0.3f);
+
+        await websocket.Connect();
+    }
+
+    void Update()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        websocket.DispatchMessageQueue();
+#endif
+    }
+
+    public async void SendWebSocketMessage()
+    {        
+
+        string json = JsonUtility.ToJson(product);
+
+        if (websocket.State == WebSocketState.Open)
+        {
+            await websocket.SendText(json);
+        }
+    }
+   
+    private async void OnApplicationQuit()
+    {
+        await websocket.Close();
+    }
+
+    
 }
 
