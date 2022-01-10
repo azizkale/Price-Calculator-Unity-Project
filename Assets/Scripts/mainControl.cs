@@ -133,12 +133,12 @@ public class mainControl : MonoBehaviour
     // Websocket funct,ons
     private async void webSocketConnection()
     {
-        //websocket = new WebSocket("ws://localhost:5000");
-        websocket = new WebSocket("ws://no100.herokuapp.com");
+        websocket = new WebSocket("ws://localhost:5000");
+        //websocket = new WebSocket("ws://no100.herokuapp.com");
 
         websocket.OnOpen += () =>
         {
-            //Debug.Log("Connection open!");
+            Debug.Log("Connection open!");
         };
 
         websocket.OnError += (e) =>
@@ -154,12 +154,12 @@ public class mainControl : MonoBehaviour
         websocket.OnMessage += (bytes) =>
         {
             // Reading a plain text message
-            var message = System.Text.Encoding.UTF8.GetString(bytes);
-            Debug.Log("Received OnMessage! (" + bytes.Length + " bytes) " + message);
+            //var message = System.Text.Encoding.UTF8.GetString(bytes);
+           
         };
 
         // Keep sending messages at every 0.3s
-        //InvokeRepeating("SendWebSocketMessage", 0.0f, 0.3f);
+        // InvokeRepeating("SendWebSocketMessage", 0.0f, 0.3f);
 
         await websocket.Connect();
     }
@@ -172,13 +172,14 @@ public class mainControl : MonoBehaviour
     }
 
     public async void SendWebSocketMessage()
-    {        
+    {
         //serializes the data to json format and sends to websocket server
-        string json = JsonUtility.ToJson(product);
-
+        product.senderInfo = "fromMobileDevice";
+        string productsData = JsonUtility.ToJson(product);
+        //string dataToWebSocket = "data:{data1:fromApp,data2:"+productsData+"}";
         if (websocket.State == WebSocketState.Open)
         {
-            await websocket.SendText(json);
+            await websocket.SendText(productsData);            
         }
     }
    
@@ -198,6 +199,6 @@ public class mainControl : MonoBehaviour
     {
         subMenu.SetActive(false);
         menu.SetActive(true);
-    }
+    }   
 }
 
