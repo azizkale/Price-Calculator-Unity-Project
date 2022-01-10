@@ -26,11 +26,15 @@ public class mainControl : MonoBehaviour
     ProductValidator validate;
 
     WebSocket websocket;
-    async void Start()
+
+    public GameObject menu;
+    public GameObject subMenu;
+
+    void Start()
     {
         validate = new ProductValidator();
         this.defafultValuesOfInputFields();
-        webSocketConnection();
+       webSocketConnection();
     }
   
    public void calculateThePrice()
@@ -126,6 +130,7 @@ public class mainControl : MonoBehaviour
         productProfitRate.text = "0";
     }
 
+    // Websocket funct,ons
     private async void webSocketConnection()
     {
         //websocket = new WebSocket("ws://localhost:5000");
@@ -182,6 +187,17 @@ public class mainControl : MonoBehaviour
         await websocket.Close();
     }
 
+    //Menu functions
+    public void showMenu()
+    {
+        subMenu.SetActive(true);
+        menu.SetActive(false);
+    }
     
+    public void closeMenu()
+    {
+        subMenu.SetActive(false);
+        menu.SetActive(true);
+    }
 }
 
