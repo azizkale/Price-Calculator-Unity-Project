@@ -9,6 +9,7 @@ TagManager:
   - KDV_Amount
   - CargoExpenceAmount
   - ProfitAmount
+  - InputFields&Labels
   layers:
   - Default
   - TransparentFX
