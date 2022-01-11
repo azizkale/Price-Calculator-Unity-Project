@@ -13,8 +13,8 @@ public class Product : MonoBehaviour
     public float profitRate;
     public float sellingingPrice;
 
-    //sending info
-    public string senderInfo;
+    //request info
+    public string requestInfo;
 
     //Expense Amounts
     public float totalExpenseAmount;

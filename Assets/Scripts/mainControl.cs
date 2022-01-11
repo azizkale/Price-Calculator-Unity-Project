@@ -174,7 +174,7 @@ public class mainControl : MonoBehaviour
     public async void SendWebSocketMessage()
     {
         //serializes the data to json format and sends to websocket server
-        product.senderInfo = "fromMobileDevice";
+        product.requestInfo = "appReq";
         string productsData = JsonUtility.ToJson(product);
         //string dataToWebSocket = "data:{data1:fromApp,data2:"+productsData+"}";
         if (websocket.State == WebSocketState.Open)
