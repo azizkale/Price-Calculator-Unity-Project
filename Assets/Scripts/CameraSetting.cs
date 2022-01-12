@@ -8,10 +8,10 @@ public class CameraSetting : MonoBehaviour
     public float sceneWidth = 10;
 
     Camera _camera;
-
+    
     void Start()
     {
-        _camera = GetComponent<Camera>();
+        _camera = GetComponent<Camera>();       
     }
 
     // Adjust the camera's height so the desired scene width fits in view
