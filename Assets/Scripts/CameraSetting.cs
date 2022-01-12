@@ -8,12 +8,10 @@ public class CameraSetting : MonoBehaviour
     public float sceneWidth = 10;
 
     Camera _camera;
-    public GameObject InputFieldsLabels;
 
     void Start()
     {
         _camera = GetComponent<Camera>();
-        Debug.Log("sdadas");
     }
 
     // Adjust the camera's height so the desired scene width fits in view
