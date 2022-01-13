@@ -884,12 +884,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4191131cb4c7840909c597e819cc08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productName: {fileID: 896489944}
-  productSupplyingPrice: {fileID: 2137070563}
-  productKdvRate: {fileID: 731469332}
-  productCargoExpence: {fileID: 1802392379}
-  productTYComissionRate: {fileID: 1277366942}
-  productProfitRate: {fileID: 35636757}
+  inputProductName: {fileID: 0}
+  inputProductSupplyingPrice: {fileID: 0}
+  inputProductKdvRate: {fileID: 0}
+  inputProductCargoExpence: {fileID: 0}
+  inputProductTYComissionRate: {fileID: 0}
+  inputProductProfitRate: {fileID: 0}
   menu: {fileID: 449822993}
   subMenu: {fileID: 1015706938}
 --- !u!4 &436291230

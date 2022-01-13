@@ -6,12 +6,12 @@ using NativeWebSocket;
 public class mainControl : MonoBehaviour
 {
 
-    public InputField productName;
-    public InputField productSupplyingPrice;
-    public InputField productKdvRate;
-    public InputField productCargoExpence;
-    public InputField productTYComissionRate;
-    public InputField productProfitRate;
+    public InputField inputProductName;
+    public InputField inputProductSupplyingPrice;
+    public InputField inputProductKdvRate;
+    public InputField inputProductCargoExpence;
+    public InputField inputProductTYComissionRate;
+    public InputField inputProductProfitRate;
 
     GameObject sellingPriceSet;
     Text txtSellingPriceLabel;
@@ -41,7 +41,7 @@ public class mainControl : MonoBehaviour
    public void calculateThePrice()
     {
         product = new Product();
-        product.pName = productName.text;
+        product.pName = inputProductName.text;
 
         
 
@@ -50,13 +50,17 @@ public class mainControl : MonoBehaviour
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-        product.supplyingPrice = float.Parse(String.Format("{0:0.##}",productSupplyingPrice.text, customCulture));
-        product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", productTYComissionRate.text, customCulture));
-        product.KDV = float.Parse(String.Format("{0:0.00}",productKdvRate.text, customCulture));
-        product.cargoExpense = float.Parse(String.Format("{0:0.00}", productCargoExpence.text, customCulture));
-        product.profitRate = float.Parse(String.Format("{0:0.00}", productProfitRate.text, customCulture));
+        product.supplyingPrice = float.Parse(String.Format("{0:0.##}",inputProductSupplyingPrice.text, customCulture));
+        product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", inputProductTYComissionRate.text, customCulture));
+        product.KDV = float.Parse(String.Format("{0:0.00}",inputProductKdvRate.text, customCulture));
+        product.cargoExpense = float.Parse(String.Format("{0:0.00}", inputProductCargoExpence.text, customCulture));
+        product.profitRate = float.Parse(String.Format("{0:0.00}", inputProductProfitRate.text, customCulture));
 
-        if (validate.Validate(product))
+        if (validate.Validate(inputProductSupplyingPrice,
+            inputProductTYComissionRate,
+            inputProductKdvRate,
+            inputProductCargoExpence,
+            inputProductProfitRate))
         {
             product.calculateSellingPrice();
         }
@@ -110,12 +114,12 @@ public class mainControl : MonoBehaviour
 
    public void clearTheForm()
     {
-        productName.text = "";
-        productSupplyingPrice.text = "";
-        productKdvRate.text = "";
-        productCargoExpence.text = "";
-        productTYComissionRate.text = "";
-        productProfitRate.text = "";
+        inputProductName.text = "";
+        inputProductSupplyingPrice.text = "";
+        inputProductKdvRate.text = "";
+        inputProductCargoExpence.text = "";
+        inputProductTYComissionRate.text = "";
+        inputProductProfitRate.text = "";
 
         txtSellingPriceAmount.text = "";
         tyComissionAmount.text = "";
@@ -131,11 +135,11 @@ public class mainControl : MonoBehaviour
    
     private void defafultValuesOfInputFields()
     {
-        productSupplyingPrice.text = "0";
-        productKdvRate.text = "0";
-        productCargoExpence.text = "0";
-        productTYComissionRate.text = "0";
-        productProfitRate.text = "0";
+        inputProductSupplyingPrice.text = "0";
+        inputProductKdvRate.text = "0";
+        inputProductCargoExpence.text = "0";
+        inputProductTYComissionRate.text = "0";
+        inputProductProfitRate.text = "0";
     }
 
     // Websocket funct,ons
@@ -172,12 +176,12 @@ public class mainControl : MonoBehaviour
         await websocket.Connect();
     }
 
-    void Update()
-    {
-#if !UNITY_WEBGL || UNITY_EDITOR
-        websocket.DispatchMessageQueue();
-#endif
-    }
+    //void Update()
+    //{
+    //    #if !UNITY_WEBGL || UNITY_EDITOR
+    //            websocket.DispatchMessageQueue();
+    //    #endif
+    //}
 
     public async void SendWebSocketMessage()
     {

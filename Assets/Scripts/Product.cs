@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Product : MonoBehaviour
@@ -70,25 +71,24 @@ public class Product : MonoBehaviour
     }
 }
 
-interface IValidator<T>
+interface IValidator<T1,T2,T3,T4,T5>
 {
-    bool Validate(T t);
+    bool Validate(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5);
 }
 
-class ProductValidator : IValidator<Product>
+class ProductValidator : IValidator<InputField, InputField, InputField, InputField, InputField>
 {
-    public bool Validate(Product p)
+    public bool Validate(InputField supplyPrice, InputField tyCommission , InputField kdv, InputField cargo, InputField profit)
     {
-        if (p.pName == null || p.pName == "")
+        if (supplyPrice.text == null || supplyPrice.text == "0")
         {
-            Debug.Log("Lütfen ürün ismi giriniz.");            
+            supplyPrice.GetComponent<Image>().color = Color.red;
             return false;
         }
-        if (p.supplyingPrice == 0)
-        {
-            Debug.Log("Lütfen ürün alış fiyatı giriniz.");
-            return false;
-        }
+        //if (p.supplyingPrice == 0)
+        //{
+        //    return false;
+        //}
         else
             return true;
     }
