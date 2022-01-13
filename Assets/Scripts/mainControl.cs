@@ -21,6 +21,7 @@ public class mainControl : MonoBehaviour
     Text cargoExpenceAmount;
     Text profitAmount;
     Text txtInvoiceAmount;
+    Text txtAlert;
 
 
     Product product;
@@ -36,9 +37,12 @@ public class mainControl : MonoBehaviour
         validate = new ProductValidator();
         this.defafultValuesOfInputFields();
        webSocketConnection();
+        //
+        txtAlert = GameObject.FindGameObjectWithTag("alertText").GetComponent<Text>();
+
     }
-  
-   public void calculateThePrice()
+
+    public void calculateThePrice()
     {
         product = new Product();
         product.pName = inputProductName.text;
@@ -50,22 +54,21 @@ public class mainControl : MonoBehaviour
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-        product.supplyingPrice = float.Parse(String.Format("{0:0.##}",inputProductSupplyingPrice.text, customCulture));
+        product.supplyingPrice = float.Parse(String.Format("{0:0.00}",inputProductSupplyingPrice.text, customCulture));
         product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", inputProductTYComissionRate.text, customCulture));
         product.KDV = float.Parse(String.Format("{0:0.00}",inputProductKdvRate.text, customCulture));
         product.cargoExpense = float.Parse(String.Format("{0:0.00}", inputProductCargoExpence.text, customCulture));
         product.profitRate = float.Parse(String.Format("{0:0.00}", inputProductProfitRate.text, customCulture));
 
-        if (validate.Validate(inputProductSupplyingPrice,
-            inputProductTYComissionRate,
-            inputProductKdvRate,
-            inputProductCargoExpence,
-            inputProductProfitRate))
+        // Supply Price can not be null or zero
+        if (validate.Validate(inputProductSupplyingPrice))
         {
             product.calculateSellingPrice();
+            showAmounts(product);
+            txtAlert.text = "";
         }
 
-        showAmounts(product);
+       
 
     }
 
@@ -76,18 +79,13 @@ public class mainControl : MonoBehaviour
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
-
-        sellingPriceSet = GameObject.FindGameObjectWithTag("sellingPriceSet");
-
-        txtSellingPriceLabel = sellingPriceSet.gameObject.transform.GetChild(0).gameObject.GetComponent<Text>();
+        
+        //Selling Price Amount and Label Name
+        txtSellingPriceLabel = GameObject.FindGameObjectWithTag("sellingPriceAmountLabel").GetComponent<Text>();
         txtSellingPriceLabel.text = "Satış Fiyatı:";
-
-        txtSellingPriceAmount = sellingPriceSet.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
-        //txtSellingPriceAmount.text = "";
+        txtSellingPriceAmount = GameObject.FindGameObjectWithTag("sellingPriceAmount").GetComponent<Text>();
         txtSellingPriceAmount.text = String.Format("{0:0.00}", product.sellingingPrice, customCulture) + " TL";
 
-        
         //Trendyol Comission Amount Text
         tyComissionAmount = GameObject.FindGameObjectWithTag("comissionAmount").GetComponent<Text>();
         tyComissionAmount.text = String.Format("{0:0.00}", product.calculateTrendyolComisssionExpenseAmount(), customCulture) + " TL";
@@ -111,21 +109,29 @@ public class mainControl : MonoBehaviour
 
     }
 
+    // On value change event
+    public void makeInputFieldsBackgroundWhite(InputField supplyPrice)
+    {
+        supplyPrice.GetComponent<Image>().color = Color.white;
+    }
 
    public void clearTheForm()
     {
         inputProductName.text = "";
-        inputProductSupplyingPrice.text = "";
-        inputProductKdvRate.text = "";
-        inputProductCargoExpence.text = "";
-        inputProductTYComissionRate.text = "";
-        inputProductProfitRate.text = "";
+        inputProductSupplyingPrice.text = "0";
+        inputProductKdvRate.text = "0";
+        inputProductCargoExpence.text = "0";
+        inputProductTYComissionRate.text = "0";
+        inputProductProfitRate.text = "0";
 
         txtSellingPriceAmount.text = "";
         tyComissionAmount.text = "";
         KDVAmount.text = "";
         cargoExpenceAmount.text = "";
         profitAmount.text = "";
+
+        txtAlert.text = "";
+        txtInvoiceAmount.text = "";
     }
 
    public void closeApp()
@@ -176,22 +182,32 @@ public class mainControl : MonoBehaviour
         await websocket.Connect();
     }
 
-    //void Update()
-    //{
-    //    #if !UNITY_WEBGL || UNITY_EDITOR
-    //            websocket.DispatchMessageQueue();
-    //    #endif
-    //}
+    void Update()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        websocket.DispatchMessageQueue();
+#endif
+    }
 
     public async void SendWebSocketMessage()
     {
-        //serializes the data to json format and sends to websocket server
-        product.requestInfo = "appReq";
-        string productsData = JsonUtility.ToJson(product);
-        //string dataToWebSocket = "data:{data1:fromApp,data2:"+productsData+"}";
+        txtSellingPriceAmount = GameObject.FindGameObjectWithTag("sellingPriceAmount").GetComponent<Text>();      
+
         if (websocket.State == WebSocketState.Open)
         {
-            await websocket.SendText(productsData);            
+            if (txtSellingPriceAmount.text != "")
+            {                //serializes the data to json format and sends to websocket server
+                product.requestInfo = "appReq";
+                string productsData = JsonUtility.ToJson(product);
+                await websocket.SendText(productsData);
+                txtAlert.text = "Ürün gönderildi.";
+                txtAlert.GetComponent<Text>().color = Color.blue;
+            }
+            else if (txtSellingPriceAmount.text =="")
+            {
+                txtAlert.text = "İlk önce fiyat hesaplayınız!";
+                txtAlert.GetComponent<Text>().color = Color.red;
+            }
         }
     }
    

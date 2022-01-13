@@ -11,6 +11,9 @@ TagManager:
   - ProfitAmount
   - InputFields&Labels
   - InvoiceAmount
+  - sellingPriceAmountLabel
+  - sellingPriceAmount
+  - alertText
   layers:
   - Default
   - TransparentFX

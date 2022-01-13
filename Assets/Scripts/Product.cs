@@ -71,24 +71,20 @@ public class Product : MonoBehaviour
     }
 }
 
-interface IValidator<T1,T2,T3,T4,T5>
+interface IValidator<T1>
 {
-    bool Validate(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5);
+    bool Validate(T1 t1);
 }
 
-class ProductValidator : IValidator<InputField, InputField, InputField, InputField, InputField>
+class ProductValidator : IValidator<InputField>
 {
-    public bool Validate(InputField supplyPrice, InputField tyCommission , InputField kdv, InputField cargo, InputField profit)
+    public bool Validate(InputField supplyPrice)
     {
-        if (supplyPrice.text == null || supplyPrice.text == "0")
+        if (supplyPrice.text == null || supplyPrice.text == "0" || supplyPrice.text == "")
         {
             supplyPrice.GetComponent<Image>().color = Color.red;
             return false;
-        }
-        //if (p.supplyingPrice == 0)
-        //{
-        //    return false;
-        //}
+        }            
         else
             return true;
     }
