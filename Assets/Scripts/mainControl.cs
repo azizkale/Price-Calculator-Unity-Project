@@ -20,6 +20,7 @@ public class mainControl : MonoBehaviour
     Text KDVAmount;
     Text cargoExpenceAmount;
     Text profitAmount;
+    Text txtInvoiceAmount;
 
 
     Product product;
@@ -42,8 +43,8 @@ public class mainControl : MonoBehaviour
         product = new Product();
         product.pName = productName.text;
 
+        
 
-       
         //this shit is needed to convert the data to decimal with "." (dot)
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -58,13 +59,13 @@ public class mainControl : MonoBehaviour
         if (validate.Validate(product))
         {
             product.calculateSellingPrice();
-        }       
+        }
 
-        showSellingPrice(product);
-       
+        showAmounts(product);
+
     }
 
-   void showSellingPrice(Product product)
+   void showAmounts(Product product)
     {
        
         //this shit is needed to convert the data to decimal with "." (dot)
@@ -81,6 +82,7 @@ public class mainControl : MonoBehaviour
         txtSellingPriceAmount = sellingPriceSet.gameObject.transform.GetChild(1).gameObject.GetComponent<Text>();
         //txtSellingPriceAmount.text = "";
         txtSellingPriceAmount.text = String.Format("{0:0.00}", product.sellingingPrice, customCulture) + " TL";
+
         
         //Trendyol Comission Amount Text
         tyComissionAmount = GameObject.FindGameObjectWithTag("comissionAmount").GetComponent<Text>();
@@ -97,6 +99,12 @@ public class mainControl : MonoBehaviour
         //Profit Amount Text
         profitAmount = GameObject.FindGameObjectWithTag("ProfitAmount").GetComponent<Text>();
         profitAmount.text = String.Format("{0:0.00}", product.calculateprofitAmount(), customCulture) + " TL";
+        
+        //Invoice Amount Text
+        txtInvoiceAmount = GameObject.FindGameObjectWithTag("InvoiceAmount").GetComponent<Text>();
+        txtInvoiceAmount.text = String.Format("{0:0.00}", product.calculateInvoice(), customCulture) + " TL";
+
+
     }
 
 

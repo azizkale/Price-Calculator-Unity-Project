@@ -24,6 +24,9 @@ public class Product : MonoBehaviour
     //Profit Amount
     public float profitAmount;
 
+    //Invoice Amount
+    public float invoiceAmount;
+
     //Methods
     public float calculateSellingPrice()
     {
@@ -60,6 +63,11 @@ public class Product : MonoBehaviour
         return Decimal.Parse(String.Format("{0:0.##}", this.profitAmount));
     }
 
+    public float calculateInvoice()
+    {
+        this.invoiceAmount = (this.calculateSellingPrice() * 100) / (100f + this.KDV);
+        return  this.invoiceAmount;
+    }
 }
 
 interface IValidator<T>
