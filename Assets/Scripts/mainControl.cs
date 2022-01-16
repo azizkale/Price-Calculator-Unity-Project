@@ -44,27 +44,35 @@ public class mainControl : MonoBehaviour
 
     public void calculateThePrice()
     {
-        product = new Product();
-        product.pName = inputProductName.text;
+        // Inputs texts can not be null or zero (except product name)
+        if (validate.Validate(
+              inputProductSupplyingPrice,
+              inputProductKdvRate,
+              inputProductCargoExpence,
+              inputProductTYComissionRate,
+              inputProductProfitRate))
+        {
+
+            product = new Product();
+            product.pName = inputProductName.text;
 
         
 
-        //this shit is needed to convert the data to decimal with "." (dot)
-        System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-        customCulture.NumberFormat.NumberDecimalSeparator = ".";
-        System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            //this shit is needed to convert the data to decimal with "." (dot)
+            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-        product.supplyingPrice = float.Parse(String.Format("{0:0.00}",inputProductSupplyingPrice.text, customCulture));
-        product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", inputProductTYComissionRate.text, customCulture));
-        product.KDV = float.Parse(String.Format("{0:0.00}",inputProductKdvRate.text, customCulture));
-        product.cargoExpense = float.Parse(String.Format("{0:0.00}", inputProductCargoExpence.text, customCulture));
-        product.profitRate = float.Parse(String.Format("{0:0.00}", inputProductProfitRate.text, customCulture));
+            product.supplyingPrice = float.Parse(String.Format("{0:0.00}",inputProductSupplyingPrice.text, customCulture));
+            product.trendyolComissionRate = float.Parse(String.Format("{0:0.00}", inputProductTYComissionRate.text, customCulture));
+            product.KDV = float.Parse(String.Format("{0:0.00}",inputProductKdvRate.text, customCulture));
+            product.cargoExpense = float.Parse(String.Format("{0:0.00}", inputProductCargoExpence.text, customCulture));
+            product.profitRate = float.Parse(String.Format("{0:0.00}", inputProductProfitRate.text, customCulture));
 
-        // Supply Price can not be null or zero
-        if (validate.Validate(inputProductSupplyingPrice))
-        {
-            product.calculateSellingPrice();
-            showAmounts(product);
+       
+                                                     
+            product.calculateSellingPrice();             
+            showAmounts(product);                        
             txtAlert.text = "";
         }
 
@@ -110,9 +118,9 @@ public class mainControl : MonoBehaviour
     }
 
     // On value change event
-    public void makeInputFieldsBackgroundWhite(InputField supplyPrice)
+    public void makeInputFieldsBackgroundWhite(InputField input)
     {
-        supplyPrice.GetComponent<Image>().color = Color.white;
+        input.GetComponent<Image>().color = Color.white;
     }
 
    public void clearTheForm()
