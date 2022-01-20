@@ -159,7 +159,7 @@ public class mainControl : MonoBehaviour
     // Websocket funct,ons
     private async void webSocketConnection()
     {
-        //websocket = new WebSocket("ws://localhost:5000");
+        websocket = new WebSocket("ws://localhost:5000");
       
         websocket.OnOpen += () =>
         {
