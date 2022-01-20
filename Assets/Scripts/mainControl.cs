@@ -160,8 +160,7 @@ public class mainControl : MonoBehaviour
     private async void webSocketConnection()
     {
         //websocket = new WebSocket("ws://localhost:5000");
-        websocket = new WebSocket("ws://frozen-earth-60865.herokuapp.com");
-
+      
         websocket.OnOpen += () =>
         {
             Debug.Log("Connection open!");
