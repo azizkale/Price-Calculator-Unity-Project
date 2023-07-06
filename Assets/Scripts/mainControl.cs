@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using NativeWebSocket;
 
-public class mainControl : MonoBehaviour
+public class mainControl :MonoBehaviour
 {
 
     public InputField inputProductName;
@@ -36,7 +36,7 @@ public class mainControl : MonoBehaviour
     {
         validate = new ProductValidator();
         this.defafultValuesOfInputFields();
-       webSocketConnection();
+       //webSocketConnection();
         //
         txtAlert = GameObject.FindGameObjectWithTag("alertText").GetComponent<Text>();
 
@@ -81,8 +81,7 @@ public class mainControl : MonoBehaviour
     }
 
    void showAmounts(Product product)
-    {
-       
+    {       
         //this shit is needed to convert the data to decimal with "." (dot)
         System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
